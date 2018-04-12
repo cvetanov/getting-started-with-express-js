@@ -1,0 +1,23 @@
+{
+  "name": "getting-started-with-express-js",
+  "version": "1.0.0",
+  "description": "Egghead course on Getting started with Express JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cvetanov/getting-started-with-express-js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cvetanov/getting-started-with-express-js/issues"
+  },
+  "homepage": "https://github.com/cvetanov/getting-started-with-express-js#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
