@@ -20,12 +20,16 @@ app.get('/', (req, res) => {
   res.send('Hello world');
 });
 
+// NOTE: render view templates
+// to specify in which folders will the views exist
+// you can use `app.set('views', './views');`
+// which is the same as the default value `process.cwd() + '/views'`
+// view resolution can be done via either a default 'view engine' config
+// or via concrete extension when specifying the view (e.g. res.render('users.pug'))
+app.set('view engine', 'pug');
+
 app.get('/users', (req, res) => {
-  const usersMarkup = Object.values(users).reduce(
-    (acc, curr) => `${acc}<a href="/users/${curr.username}">${curr.name.first} ${curr.name.last}</a><br>`,
-    ''
-  );
-  res.send(usersMarkup);
+  res.render('users', { users });
 });
 
 // NOTE: request mapping can be done using regular expressions as well
