@@ -108,3 +108,14 @@ app.get('/data/users', (req, res) => {
   res.download('./users.json');
 });
 ```
+
+- Define custom routers
+```
+// NOTE: `usersPath` will be a prefix for the routes defined in the `usersRouter` itself
+app.use(usersPath, usersRouter);
+
+// NOTE: mergeParams means that the express instance should in some way forward all params to this router
+// the routes defined on the router will be prefixed
+// with the string defined when configuring this router on the express instance
+const router = express.Router({ mergeParams: true });
+```
