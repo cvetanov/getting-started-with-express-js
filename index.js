@@ -49,11 +49,26 @@ app.get(/big.*/, function (req, res, next) {
   next();
 });
 
+// NOTE: we can add verification by creating another handler which we can use on a given route
+const verifyUser = ({ params: { username }}, res, next) => {
+  const user = !!users[username];
+  if (user) {
+    next()
+  } else {
+    res.redirect(`/users/invalid/${username}`);
+  }
+};
+
 // NOTE: colon signifies a path variable (in this case `:username`)
 // path variables can be accessed from the req.params.<variableName>
-app.get('/users/:username', ({ params: { username }}, res) => {
+app.get('/users/:username', verifyUser, ({ params: { username }}, res) => {
   const user = users[username];
   res.render('user', { user });
+});
+
+const STATUS_NOT_FOUND = 404;
+app.get('/users/invalid/:username', ({ params: { username }}, res) => {
+  res.status(STATUS_NOT_FOUND).send(`User '${username}' not found`);
 });
 
 // NOTE: mutating the objects directly is not good practice

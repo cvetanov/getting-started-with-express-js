@@ -80,3 +80,23 @@ app.delete('/users/:username', ({ params: { username }}, res) => {
   res.sendStatus(STATUS_OK);
 });
 ```
+
+- Add verification on a route
+```
+// NOTE: we can add verification by creating another handler which we can use on a given route
+const verifyUser = ({ params: { username }}, res, next) => {
+  const user = !!users[username];
+  if (user) {
+    next()
+  } else {
+    res.redirect(`/users/invalid/${username}`);
+  }
+};
+
+const STATUS_NOT_FOUND = 404;
+app.get('/users/invalid/:username', ({ params: { username }}, res) => {
+  res.status(STATUS_NOT_FOUND).send(`User '${username}' not found`);
+});
+
+app.get('/users/:username', verifyUser, getUserByUsername);
+```
