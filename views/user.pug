@@ -1,0 +1,9 @@
+doctype html
+html(lang="en")
+    head
+        title= "User Index"
+    body
+        h1 Pug!
+        div #{user.name.first} #{user.name.last}
+            br
+            img(src="/images/" + user.username + "_lg.jpg")
