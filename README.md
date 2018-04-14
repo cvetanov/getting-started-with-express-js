@@ -36,3 +36,10 @@ app.get('/users', (req, res) => {
   res.render('users', { users });
 });
 ```
+
+- Serving static files
+```
+// NOTE: serve static files via `express.static` middleware
+// serve the 'images' folder and its contents on the '/images' url
+app.use('/images', express.static('images'));
+```

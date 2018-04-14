@@ -28,6 +28,10 @@ app.get('/', (req, res) => {
 // or via concrete extension when specifying the view (e.g. res.render('users.pug'))
 app.set('view engine', 'pug');
 
+// NOTE: serve static files via `express.static` middleware
+// serve the 'images' folder and its contents on the '/images' url
+app.use('/images', express.static('images'));
+
 app.get('/users', (req, res) => {
   res.render('users', { users });
 });
@@ -43,7 +47,8 @@ app.get(/big.*/, function (req, res, next) {
 // NOTE: colon signifies a path variable (in this case `:username`)
 // path variables can be accessed from the req.params.<variableName>
 app.get('/users/:username', ({ params: { username }}, res) => {
-  res.send(users[username]);
+  const user = users[username];
+  res.render('user', { user });
 });
 
 const server = app.listen(3000, () => console.log(`Server running at localhost:${server.address().port}`));
