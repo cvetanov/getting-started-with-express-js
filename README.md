@@ -43,3 +43,40 @@ app.get('/users', (req, res) => {
 // serve the 'images' folder and its contents on the '/images' url
 app.use('/images', express.static('images'));
 ```
+
+- Request Body parsing
+```
+// NOTE: use a body parser to be able to access the request's body
+// in post/put operations
+app.use(bodyParser.json());
+```
+
+- POST, PUT and DELETE methods
+```
+// NOTE: mutating the objects directly is not good practice
+// state management is not the main topic of the course
+const STATUS_OK = 200;
+
+// NOTE: for POST requests, juts use the `post` method on the express instance
+app.post('/users', ({ body }, res) => {
+  const { username } = body;
+  users[username] = body;
+  res.sendStatus(STATUS_OK);
+});
+
+// NOTE: for PUT requests, juts use the `put` method on the express instance
+app.put('/users/:username', ({ params: { username }, body }, res) => {
+  const userToUpdate = users[username];
+  users[username] = {
+    ...userToUpdate,
+    ...body
+  };
+  res.sendStatus(STATUS_OK);
+});
+
+// NOTE: for DELETE requests, juts use the `delete` method on the express instance
+app.delete('/users/:username', ({ params: { username }}, res) => {
+  delete users[username];
+  res.sendStatus(STATUS_OK);
+});
+```

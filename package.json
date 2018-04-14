@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/cvetanov/getting-started-with-express-js#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "esm": "^3.0.17",
     "express": "^4.16.3",
     "pug": "^2.0.3"
