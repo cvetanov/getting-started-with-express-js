@@ -66,6 +66,12 @@ app.get('/users/:username', verifyUser, ({ params: { username }}, res) => {
   res.render('user', { user });
 });
 
+// NOTE: we can send a file to the user by using the response's `download` method
+app.get('/data/users', (req, res) => {
+  res.download('./users.json');
+});
+
+
 const STATUS_NOT_FOUND = 404;
 app.get('/users/invalid/:username', ({ params: { username }}, res) => {
   res.status(STATUS_NOT_FOUND).send(`User '${username}' not found`);

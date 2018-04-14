@@ -100,3 +100,11 @@ app.get('/users/invalid/:username', ({ params: { username }}, res) => {
 
 app.get('/users/:username', verifyUser, getUserByUsername);
 ```
+
+- Send a file to the user
+```
+// NOTE: we can send a file to the user by using the response's `download` method
+app.get('/data/users', (req, res) => {
+  res.download('./users.json');
+});
+```
