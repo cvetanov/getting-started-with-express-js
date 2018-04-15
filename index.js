@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 
 import { path as usersPath, router as usersRouter } from './routes/users';
+import { STATUS } from './constants';
 
 const app = express();
 
@@ -40,7 +41,7 @@ app.use(usersPath, usersRouter);
 // except that error-handling functions have 4 arguments (the first one being the error)
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(STATUS.INTERNAL_SERVER_ERROR).send('Something broke!');
 });
 
 // NOTE: express has it's own built-in error-handling middleware which returns the exact error and a 500 HTTP status

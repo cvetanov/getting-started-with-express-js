@@ -4,6 +4,7 @@ import {
   renderUsers,
   downloadUsers
 } from "./handlers";
+import { STATUS } from '../../constants';
 
 let users = [];
 fs.readFile('users.json', (err, data) => {
@@ -45,20 +46,18 @@ router.get('/:username', verifyUser, ({ params: { username }}, res) => {
   res.render('user', { user });
 });
 
-const STATUS_NOT_FOUND = 404;
 router.get('/invalid/:username', ({ params: { username }}, res) => {
-  res.status(STATUS_NOT_FOUND).send(`User '${username}' not found`);
+  res.status(STATUS.NOT_FOUND).send(`User '${username}' not found`);
 });
 
 // NOTE: mutating the objects directly is not good practice
 // state management is not the main topic of the course
-const STATUS_OK = 200;
 
 // NOTE: for POST requests, juts use the `post` method on the express instance
 router.post('/', ({ body }, res) => {
   const { username } = body;
   users[username] = body;
-  res.sendStatus(STATUS_OK);
+  res.sendStatus(STATUS.OK);
 });
 
 // NOTE: for PUT requests, juts use the `put` method on the express instance
@@ -68,13 +67,13 @@ router.put('/:username', ({ params: { username }, body }, res) => {
     ...userToUpdate,
     ...body
   };
-  res.sendStatus(STATUS_OK);
+  res.sendStatus(STATUS.OK);
 });
 
 // NOTE: for DELETE requests, juts use the `delete` method on the express instance
 router.delete('/:username', ({ params: { username }}, res) => {
   delete users[username];
-  res.sendStatus(STATUS_OK);
+  res.sendStatus(STATUS.OK);
 });
 
 const path = '/users';

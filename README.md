@@ -55,13 +55,12 @@ app.use(bodyParser.json());
 ```
 // NOTE: mutating the objects directly is not good practice
 // state management is not the main topic of the course
-const STATUS_OK = 200;
 
 // NOTE: for POST requests, juts use the `post` method on the express instance
 app.post('/users', ({ body }, res) => {
   const { username } = body;
   users[username] = body;
-  res.sendStatus(STATUS_OK);
+  res.sendStatus(STATUS.OK);
 });
 
 // NOTE: for PUT requests, juts use the `put` method on the express instance
@@ -71,13 +70,13 @@ app.put('/users/:username', ({ params: { username }, body }, res) => {
     ...userToUpdate,
     ...body
   };
-  res.sendStatus(STATUS_OK);
+  res.sendStatus(STATUS.OK);
 });
 
 // NOTE: for DELETE requests, juts use the `delete` method on the express instance
 app.delete('/users/:username', ({ params: { username }}, res) => {
   delete users[username];
-  res.sendStatus(STATUS_OK);
+  res.sendStatus(STATUS.OK);
 });
 ```
 
@@ -93,9 +92,8 @@ const verifyUser = ({ params: { username }}, res, next) => {
   }
 };
 
-const STATUS_NOT_FOUND = 404;
 app.get('/users/invalid/:username', ({ params: { username }}, res) => {
-  res.status(STATUS_NOT_FOUND).send(`User '${username}' not found`);
+  res.status(STATUS.NOT_FOUND).send(`User '${username}' not found`);
 });
 
 app.get('/users/:username', verifyUser, getUserByUsername);
@@ -141,7 +139,7 @@ readable.pipe(res);
 // except that error-handling functions have 4 arguments (the first one being the error)
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(STATUS.INTERNAL_SERVER_ERROR).send('Something broke!');
 });
 
 // NOTE: express has it's own built-in error-handling middleware which returns the exact error and a 500 HTTP status
