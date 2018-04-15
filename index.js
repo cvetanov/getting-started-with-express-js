@@ -36,4 +36,15 @@ app.get(/big.*/, function (req, res, next) {
 // NOTE: `usersPath` will be a prefix for the routes defined in the `usersRouter` itself
 app.use(usersPath, usersRouter);
 
+// NOTE: error-handling middleware is defined in the same way as other functions
+// except that error-handling functions have 4 arguments (the first one being the error)
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+// NOTE: express has it's own built-in error-handling middleware which returns the exact error and a 500 HTTP status
+// this feature of express is only available in non-production environments
+// because it might contain server-specific data (such as folder structure)
+
 const server = app.listen(3000, () => console.log(`Server running at localhost:${server.address().port}`));
