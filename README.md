@@ -119,3 +119,17 @@ app.use(usersPath, usersRouter);
 // with the string defined when configuring this router on the express instance
 const router = express.Router({ mergeParams: true });
 ```
+
+- Readable/Writable streams
+
+The express response object is an enhanced version of Node's server response (from the native module `http`)
+which in turn implements the `Writable Stream` interface, meaning we can pipe a readable stream to the express response
+```
+const readable = fs.createReadStream(sourceFileName);
+const writable = fs.createWriteStream(destinationFileName);
+// all data from file `sourceFileName` will be piped to the file `destinationFileName`
+readable.pipe(writable); 
+
+// NOTE: pipe data from a readable directly to the response
+readable.pipe(res);
+```
