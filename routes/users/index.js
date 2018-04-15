@@ -1,5 +1,9 @@
 import express from 'express';
 import fs from 'fs';
+import {
+  renderUsers,
+  downloadUsers
+} from "./handlers";
 
 let users = [];
 fs.readFile('users.json', (err, data) => {
@@ -19,14 +23,10 @@ fs.readFile('users.json', (err, data) => {
 // with the string defined when configuring this router on the express instance
 const router = express.Router({ mergeParams: true });
 
-router.get('/', (req, res) => {
-  res.render('users', { users });
-});
+router.get('/', (req, res) => renderUsers(req, res, users));
 
 // NOTE: we can send a file to the user by using the response's `download` method
-router.get('/data', (req, res) => {
-  res.download('./users.json');
-});
+router.get('/data', downloadUsers);
 
 // NOTE: we can add verification by creating another handler which we can use on a given route
 const verifyUser = ({ params: { username }}, res, next) => {
